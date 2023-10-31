@@ -11,13 +11,14 @@ export const Homepage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchNews = async (page = 1, searchTerm = "") => {
+  const fetchNews = async (page = 1, term = "") => {
     const pageSize = 4;
     try {
       const url = searchTerm
-        ? `https://newsapi.org/v2/everything?q=${searchTerm}&sortBy=publishedAt&page=${page}&pageSize=${pageSize}`
-        : `https://newsapi.org/v2/top-headlines?country=id&page=${page}&pageSize=${pageSize}`;
+        ? `https://newsapi.org/v2/everything?q=${term}&sortBy=publishedAt&page=${page}&pageSize=${pageSize}`
+        : `https://newsapi.org/v2/top-headlines?country=id&sortBy=publishedAt&page=${page}&pageSize=${pageSize}`;
 
       const res = await axios.get(url, {
         headers: {
@@ -28,15 +29,16 @@ export const Homepage = () => {
       setNews([...res.data.articles]);
       setTotalPages(Math.ceil(res.data.totalResults / pageSize));
       setCurrentPage(page);
+      setSearchTerm(term);
     } catch (err) {
       console.error(err.message);
     } finally {
       setIsLoading(false);
     }
   };
-  const handleSearch = (searchTerm) => {
+  const handleSearch = (newSearchTerm) => {
     setIsLoading(true);
-    fetchNews(1, searchTerm);
+    fetchNews(1, newSearchTerm);
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
@@ -48,7 +50,7 @@ export const Homepage = () => {
     }, 3000);
   }, []);
   const handlePageChange = (newPage) => {
-    fetchNews(newPage);
+    fetchNews(newPage, searchTerm);
   };
   return (
     <>
