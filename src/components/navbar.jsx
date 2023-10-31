@@ -15,12 +15,12 @@ export const Navbar = () => {
       }}
     >
       <b>Man's News</b>
-      <div className="flex items-center justify-around gap-14">
+      {/* <div className="flex items-center justify-around gap-8">
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact Us</a>
-      </div>
-      <div className="flex items-center justify-around gap-7">
+      </div> */}
+      <div className="flex items-center justify-around gap-4">
         <Button colorScheme="green">Login</Button>
         <Button colorScheme="facebook">Register</Button>
       </div>
