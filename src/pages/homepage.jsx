@@ -22,7 +22,7 @@ export const Homepage = () => {
 
       const res = await axios.get(url, {
         headers: {
-          "x-api-key": "7dfc11622365402d85a99e0c3b92f379",
+          "x-api-key": process.env.REACT_APP_NEWS_API_KEY,
         },
       });
 
