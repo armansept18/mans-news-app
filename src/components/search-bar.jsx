@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Center,
@@ -6,32 +7,46 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { useState } from "react";
 
-export const SearchBar = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+export default class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchTerm: "",
+    };
+  }
+
+  handleInputChange = (event) => {
+    this.setState({ searchTerm: event.target.value });
   };
-  const handleSearch = () => {
+
+  handleSearch = () => {
+    const { onSearch } = this.props;
+    const { searchTerm } = this.state;
     onSearch(searchTerm);
   };
-  return (
-    <Center>
-      <InputGroup className="mt-20 gap-5" maxW="2xl">
-        <InputLeftElement pointerEvents="none">
-          <SearchIcon color="gray.300" />
-        </InputLeftElement>
-        <Input
-          type="text"
-          placeholder="Search Here ..."
-          value={searchTerm}
-          onChange={handleInputChange}
-        />
-        <Button colorScheme="linkedin" onClick={handleSearch}>
-          Search
-        </Button>
-      </InputGroup>
-    </Center>
-  );
-};
+
+  render() {
+    const { searchTerm } = this.state;
+
+    return (
+      <Center>
+        <InputGroup className="mt-20 gap-5" maxW="2xl">
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon color="gray.300" />
+          </InputLeftElement>
+          <Input
+            type="text"
+            placeholder="Search Here ..."
+            value={searchTerm}
+            onChange={this.handleInputChange}
+          />
+          <Button colorScheme="linkedin" onClick={this.handleSearch}>
+            Search
+          </Button>
+        </InputGroup>
+      </Center>
+    );
+  }
+}
